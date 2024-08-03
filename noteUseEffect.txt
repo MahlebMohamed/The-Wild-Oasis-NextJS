@@ -1,0 +1,31 @@
+CYCLE DE VIE D'UN COMPOSANT
+
+PHASE 1: MOUNTING
+lecture 1: render
+lecture 2: componentDidMout() useEffect()
+
+PHASE 2: UPDATING   
+lecture 1: render (re-render)
+lecture 2: componentDidUpdate() useEffect()
+
+PHASE 1: MOUNTING
+lecture 1: X
+lecture 2: componentWillUnmount() useEffect()
+
+
+donc a cheque fois il aure deux lecture, exemple:
+
+ console.log('render 1');
+  
+  useEffect(() => {
+    console.log('componentDidMout');
+  })
+  
+  console.log('render 2');
+
+  ==> render 1
+  render 2
+  componentDidMout
+
+
+Remarque: ne jamais mettre un setteure dans un useEffect
