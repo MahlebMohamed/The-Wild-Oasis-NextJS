@@ -8,6 +8,8 @@ import { getBookings } from "./data-service";
 import { supabase } from "./supabase";
 
 export async function updateGuest(formData) {
+  await new Promise((res) => setTimeout(res, 2000));
+
   const session = await auth();
   if (!session) throw new Error("You must be logged in");
 
@@ -28,11 +30,16 @@ export async function updateGuest(formData) {
   revalidatePath("/account/profile");
 }
 
-export async function deleteRevervation(bookingId, guestId) {
+export async function deleteRevervation(bookingId) {
+  // await new Promise((res) => setTimeout(res, 10000));
+
   const session = await auth();
   if (!session) throw new Error("You must be logged in");
 
-  if (session.user.guestId !== guestId)
+  const guestBookings = await getBookings(session.user.guestId);
+  const guestBookingIds = guestBookings.map((booking) => booking.id);
+
+  if (!guestBookingIds.includes(bookingId))
     throw new Error("You are not allowed to delete this booking");
 
   const { error } = await supabase
